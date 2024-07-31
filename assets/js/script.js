@@ -7,6 +7,8 @@ let sendbtn = document.getElementById("sendBtn")
     let email = document.getElementById("mail")
     let phno = document.getElementById("number")
     let mesg = document.getElementById("msg")
+    let regexNumber = /^[0-9]+$/
+    let regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   let params = {
     from_name : name.value,
     mail: email.value,
@@ -14,10 +16,32 @@ let sendbtn = document.getElementById("sendBtn")
     message: mesg.value
   }
   if (params.from_name === "" || params.mail === "" || params.message === "" || params.number === "") {
-    alert("Enter Details Please")
-  } else {
+      alertmsg.style.display = "block"
+      alertmsg.style.color = "red"
+      alertmsg.innerHTML = "Please Enter Details"
+      setTimeout(() => {
+        alertmsg.style.display = "none"
+      }, 4000)
+  }
+  else if (!regexNumber.test(params.number)){
+    alertmsg.style.display = "block"
+    alertmsg.style.color = "red"
+    alertmsg.innerHTML = "Please Enter Proper Phone Number"
+    setTimeout(() => {
+      alertmsg.style.display = "none"
+    }, 4000)
+  }
+  else if (!regexEmail.test(params.mail)) {
+    alertmsg.style.display = "block"
+    alertmsg.style.color = "red"
+    alertmsg.innerHTML = "Please Enter Proper Email"
+    setTimeout(() => {
+      alertmsg.style.display = "none"
+    }, 4000)
+  }
+  else {
     await emailjs.send('service_z53ct4t', 'template_occ9hhd', params).then(
-      (response) => {
+      () => {
         alertmsg.style.display = "block"
        alertmsg.style.color = "green"
        alertmsg.innerHTML = "Message Sent"
@@ -25,7 +49,7 @@ let sendbtn = document.getElementById("sendBtn")
         alertmsg.style.display = "none"
        }, 4000);
       },
-      (error) => {
+      () => {
         alertmsg.style.display = "block"
         alertmsg.style.color = "red"
         alertmsg.innerHTML = "Message Not Sent"
