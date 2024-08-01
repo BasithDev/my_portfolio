@@ -7,8 +7,9 @@ let sendbtn = document.getElementById("sendBtn")
     let email = document.getElementById("mail")
     let phno = document.getElementById("number")
     let mesg = document.getElementById("msg")
-    let regexNumber = /^[0-9]+$/
+    let regexNumber = /^(\+)?[-\s]?([0-9]{1,3})?[0-9]{10}$/
     let regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    let regexName = /^[a-zA-z][a-zA-z]{2,}$/
   let params = {
     from_name : name.value,
     mail: email.value,
@@ -21,7 +22,15 @@ let sendbtn = document.getElementById("sendBtn")
       alertmsg.innerHTML = "Please Enter Details"
       setTimeout(() => {
         alertmsg.style.display = "none"
-      }, 4000)
+      }, 3000)
+  }
+  else if (!regexName.test(params.from_name)){
+    alertmsg.style.display = "block"
+    alertmsg.style.color = "red"
+    alertmsg.innerHTML = "Please Enter Proper Name"
+    setTimeout(() => {
+      alertmsg.style.display = "none"
+    }, 3000)
   }
   else if (!regexNumber.test(params.number)){
     alertmsg.style.display = "block"
@@ -29,7 +38,7 @@ let sendbtn = document.getElementById("sendBtn")
     alertmsg.innerHTML = "Please Enter Proper Phone Number"
     setTimeout(() => {
       alertmsg.style.display = "none"
-    }, 4000)
+    }, 3000)
   }
   else if (!regexEmail.test(params.mail)) {
     alertmsg.style.display = "block"
@@ -37,7 +46,7 @@ let sendbtn = document.getElementById("sendBtn")
     alertmsg.innerHTML = "Please Enter Proper Email"
     setTimeout(() => {
       alertmsg.style.display = "none"
-    }, 4000)
+    }, 3000)
   }
   else {
     await emailjs.send('service_z53ct4t', 'template_occ9hhd', params).then(
@@ -47,7 +56,7 @@ let sendbtn = document.getElementById("sendBtn")
        alertmsg.innerHTML = "Message Sent"
        setTimeout(() => {
         alertmsg.style.display = "none"
-       }, 4000);
+       }, 3000);
       },
       () => {
         alertmsg.style.display = "block"
@@ -55,7 +64,7 @@ let sendbtn = document.getElementById("sendBtn")
         alertmsg.innerHTML = "Message Not Sent"
         setTimeout(() => {
           alertmsg.style.display = "none"
-         }, 4000);
+         }, 3000);
       },
     ); 
   }
